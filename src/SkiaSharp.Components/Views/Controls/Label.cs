@@ -25,6 +25,7 @@ namespace SkiaSharp.Components
             TextSize = DefaultTextSize,
         };
 
+        private Alignment horizontalAlignment;
         private Alignment verticalAlignment;
 
         private Dictionary<Span, SKRect> spanLayout;
@@ -32,6 +33,12 @@ namespace SkiaSharp.Components
         #endregion
 
         #region Properties
+
+        public Alignment HorizontalAlignment 
+        {
+            get => this.horizontalAlignment;
+            set => this.SetAndInvalidate(ref this.horizontalAlignment, value);
+        }
 
         public Alignment VerticalAlignment 
         {
@@ -92,6 +99,15 @@ namespace SkiaSharp.Components
             var splitSpans = SplitLines(this.Spans, available.Size, this.LineHeight * Density.Global, out SKSize totalSize);
 
             var offset = SKPoint.Empty;
+
+            if (this.HorizontalAlignment == Alignment.Center)
+            {
+                offset.X = available.Width / 2 - totalSize.Width / 2;
+            }
+            else if (this.HorizontalAlignment == Alignment.End)
+            {
+                offset.X = available.Width - totalSize.Width;
+            }
 
             if (this.VerticalAlignment == Alignment.Center)
             {
