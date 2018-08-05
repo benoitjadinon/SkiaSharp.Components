@@ -135,9 +135,15 @@ namespace SkiaSharp.Components
 
             if(spanLayout != null)
             {
-                foreach (var span in spanLayout)
+                foreach (var spanKvp in spanLayout)
                 {
-                    span.Key.Foreground.Text(canvas, span.Key.Text, span.Value, span.Key.Typeface, span.Key.TextSize, span.Key.Decorations);
+                    (style.Foreground ?? spanKvp.Key.Foreground).Text(canvas, 
+                        spanKvp.Key.Text, 
+                        spanKvp.Value,
+                        style.Typeface ?? spanKvp.Key.Typeface, 
+                        style.TextSize >= 0 ? style.TextSize : spanKvp.Key.TextSize, 
+                        spanKvp.Key.Decorations
+                    );
                 } 
             }
         }
